@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import './SignUp.css';
 
 class SignUp extends Component {
-  constructor(props){
-      super(props)
+  constructor(){
+      super()
       this.state = {
         email: "sophie@email.fr",
         password: "badass",
@@ -22,7 +22,6 @@ class SignUp extends Component {
     this.setState({email: event.target.value});
   }
 
-
   updateConfirmPasswordField= (event) => {
       this.setState({confirmPassword: event.target.value})
   }
@@ -31,7 +30,7 @@ class SignUp extends Component {
     this.setState({password: event.target.value})
 }
 
-  updateFirstNameField= (event) => {
+  updateFirstNameField = (event) => {
     this.setState({firstName: event.target.value})
   }
 
@@ -44,13 +43,13 @@ class SignUp extends Component {
             <div className="center">
                 <div className="card">
                   <h1>{JSON.stringify(this.state,1,1)}</h1>
-                    <form onSubmit={this.handleSubmit}>
+                    <form >
                         <input className= "form-item" placeholder= "FirstName" type = "text" name = "firstName" value = {this.state.firstName} onChange={this.updateFirstNameField} />
                         <input className= "form-item" placeholder= "LastName"  type = "text" name = "lastName" value = {this.state.lastName} onChange={this.updateLastNameField} />
                         <input className= "form-item" placeholder= "Email" type = "email" name = "email" value = {this.state.email} onChange={this.updateEmailField} />
-                        <input className= "form-item" placeholder= "Password" type = "password" name = "password" value = {this.state.password} onChange={this.Field}/>
-                        <input className= "form-item" placeholder= "confirmPassword" type = "password" name = "confirmPassword" value = {this.state.confirmPassword} onChange={this.updateConfirmPasswordField} />
-                        <input className= "form-submit" value= "SUBMIT"/> 
+                        <input className= "form-item" placeholder= "Password" type = "password" name = "password" value = {this.state.password} onChange={this.updatePasswordField}/>
+                        <input className= "form-item" placeholder= "confirmPassword" type = "password" name = "confirmPassword" value = {this.state.confirmPassword} onChange={this.updateConfirmPassword} />
+                        <input className= "form-submit" value="SUBMIT" onClick={this.handleSubmit} /> 
                     </form>
                 </div>
             </div>
