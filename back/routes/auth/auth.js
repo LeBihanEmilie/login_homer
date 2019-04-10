@@ -12,4 +12,9 @@ router.post('/signup', function(req, res, next) {
     res.send('I am in POST signup');
   });
 
+  
+  app.post("/signup", (req, res) => {
+    res.send("badass signup");
+  });
+
   module.exports = router;
