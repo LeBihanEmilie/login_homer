@@ -6,7 +6,6 @@ const morgan = require("morgan");
 const app = express();
 const authRouter = require("./routes/auth/auth");
 
-
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -18,6 +17,10 @@ app.get("/", (req, res) => {
   res.send("youhou");
 });
 
+app.post("/signup", (req, res) => {
+  res.send("badass signup");
+});
+
 
 app.use(function(req, res, next) {
   var err = new Error("Not Found");
@@ -25,6 +28,6 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-let server = app.listen(process.env.PORT || 3000, function() {
+let server = app.listen(process.env.PORT || 6999, function() {
   console.log("Listening on port " + server.address().port);
 });
