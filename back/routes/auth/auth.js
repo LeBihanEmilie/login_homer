@@ -9,11 +9,24 @@ router.use(bodyParser.urlencoded({
 }));
 
 router.post('/signup', function(req, res, next) {
-    res.send('I am in POST signup');
-  });
+  const insert = `INSERT INTO users ( email, password, name, lastname) values ('${req.body.email}', '${req.body.password}','${req.body.name}', '${req.body.lastname}' )`
+    connection.query(insert, function (err, result) {
+      if(error)
+      res.status(500).end();
+  res.end('badass!!!!!!');
 
-  app.post("/signup", (req, res) => {
-    res.send("badass signup");
-  });
+          // if(err) {
+          //   console.log('mysql error', error);
+          //   res.status(500);
+          //   res.send(error);
+          // } else {                  
+          //   console.log('Bravo, un nouvel utilsateur a été crée');
+          //   res.send('Bravo,nouvel utilisateur');
+          // }
+        })
+      });
+
 
   module.exports = router;
+
+

@@ -13,17 +13,8 @@ app.use(express.static(__dirname + "/public"));
 app.use('/auth', authRouter); 
 
 
-app.get("/", (req, res) => {
-  res.send("youhou");
-});
-
-app.post("/signup", (req, res) => {
-  res.send("badass signup");
-});
-
-
 app.use(function(req, res, next) {
-  var err = new Error("Not Found");
+  let err = new Error("Not Found");
   err.status = 404;
   next(err);
 });
