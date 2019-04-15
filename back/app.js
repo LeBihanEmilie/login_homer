@@ -5,18 +5,15 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const app = express();
 const authRouter = require("./routes/auth/auth");
-const connection = require('./helpers/db.js');
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public"));
-app.use('/signup', authRouter); 
-
-
+app.use('/', authRouter); 
 
 app.use(function(req, res, next) {
-  let err = new Error("Not Found");
+  let err = new Error("Not Found, l'app n'est pas trouvée");
   err.status = 404;
   next(err);
 });
