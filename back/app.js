@@ -6,6 +6,18 @@ const morgan = require("morgan");
 const app = express();
 const authRouter = require("./routes/auth/auth");
 
+//LOCAL DEV
+app.all('/*', function(req, res, next){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-control-Allow-Methods", 'GET, PUT, POST, DELETE, PATCH OPTIONS');
+  res.header("Access-Control-Allow-Headers", 'Origin, Content-type, Accept');
+  if (req.method == 'OPTIONS') {
+      res.status(200).end();
+  } else {
+    next();
+  }
+})
+
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

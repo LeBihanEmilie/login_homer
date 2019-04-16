@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './SignUp.css';
 
@@ -31,7 +32,7 @@ class SignUp extends Component {
     )
   }
 
-  updateEmailField = (event) => {
+    updateEmailField = (event) => {
     this.setState({email: event.target.value});
   }
 
@@ -53,19 +54,21 @@ class SignUp extends Component {
  
     render() {
         return (
+          <div className="signup">
+          <Link to="/signin">Sign Up</Link>
             <div className="center">
                 <div className="card">
-                  <h1>Login</h1>
+                  <h1>Sign Up</h1>
                     <form >
                         <input className= "form-item" placeholder= "FirstName" type = "text" name = "firstName" value = {this.state.firstName} onChange={this.updateFirstNameField} />
                         <input className= "form-item" placeholder= "LastName"  type = "text" name = "lastName" value = {this.state.lastName} onChange={this.updateLastNameField} />
                         <input className= "form-item" placeholder= "Email" type = "email" name = "email" value = {this.state.email} onChange={this.updateEmailField} />
                         <input className= "form-item" placeholder= "Password" type = "password" name = "password" value = {this.state.password} onChange={this.updatePasswordField}/>
-                        {/* <input className= "form-item" placeholder= "confirmPassword" type = "password" name = "confirmPassword" value = {this.state.confirmPassword} onChange={this.updateConfirmPassword} /> */}
                         <input className= "form-submit" value="SUBMIT" onClick={this.handleSubmit} /> 
                     </form>
                 </div>
             </div>
+          </div>
     );
   }
 }       
@@ -73,4 +76,3 @@ class SignUp extends Component {
     export default SignUp;
 
 
-    
