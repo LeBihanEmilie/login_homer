@@ -12,8 +12,9 @@ router.use(bodyParser.urlencoded({
 router.post('/signup', function(req, res, next) {
   try {
     const insert = `INSERT INTO users ( email, password, name, lastname) values ('${req.body.email}', '${req.body.password}','${req.body.name}', '${req.body.lastname}' )`;
-    connection.query(insert, function (err, result) {
+    connection.query(insert, function (err, response) {
       if(err)  {
+        console.log(err);
         res.status(500).end();
       } 
       res.end('hey ok');
