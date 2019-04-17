@@ -18,6 +18,7 @@ class Profile extends Component {
     handleClick(){
         console.log('disconnected');
    }
+   
     render(){
         return(
             <div className="center">
@@ -28,7 +29,7 @@ class Profile extends Component {
                         <input className= "form-item"  type = "name" name = "name" value = {this.state.profile.name} />
                         <input className= "form-item"  type = "lastname" name = "password" value = {this.state.profile.lastname} />
                         <Link to="/signin">
-                        <input className= "form-submit" value="DECONNEXION" onClick={this.handleClick}/> 
+                            <input className= "form-submit" value="DECONNECT" onClick={this.handleClick}/> 
                         </Link>
                     </form>
                 </div>

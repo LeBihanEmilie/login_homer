@@ -1,8 +1,17 @@
 body {
-
+  background-color: #1abc9c;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+a:-webkit-any-link {
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  margin: 20px;
+  font-weight: 30px;
+  font-size: 24px;
 }

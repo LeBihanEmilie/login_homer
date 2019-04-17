@@ -9,8 +9,7 @@ class SignUp extends Component {
       this.state = {
         email: "",
         password: "",
-        confirmPassword: "",
-        firstName: "",
+        name: "",
         lastName: ""
       }
   }
@@ -28,23 +27,18 @@ class SignUp extends Component {
     .then(
         res  =>  this.setState({"flash":  res.flash}),
         err  =>  this.setState({"flash":  err.flash}),
-
     )
   }
 
-    updateEmailField = (event) => {
+  updateEmailField = (event) => {
     this.setState({email: event.target.value});
-  }
-
-  updateConfirmPasswordField= (event) => {
-      this.setState({confirmPassword: event.target.value})
   }
 
   updatePasswordField= (event) => {
     this.setState({password: event.target.value})
 }
 
-  updateFirstNameField = (event) => {
+  updateNameField = (event) => {
     this.setState({firstName: event.target.value})
   }
 
@@ -55,7 +49,7 @@ class SignUp extends Component {
     render() {
         return (
           <div className="signup">
-          <Link to="/signin">Sign Up</Link>
+          <Link to="/signin">Sign In</Link>
             <div className="center">
                 <div className="card">
                   <h1>Sign Up</h1>
