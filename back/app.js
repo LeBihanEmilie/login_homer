@@ -32,7 +32,7 @@ router.use(bodyParser.urlencoded({
 }));
 
 passport.use(new LocalStrategy(
-  {  
+  {
     usernameField: 'email', 
     passwordField: 'password',
     session: false

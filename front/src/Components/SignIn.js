@@ -22,8 +22,14 @@ class SignIn extends Component {
         body:  JSON.stringify(this.state),
     })
     .then((res) => {
-        console.log(res.status);
-    });
+        if (res.ok)
+        return  res.json()
+    else
+        throw  new  Error(res.statusText);
+    })
+    .then(res  =>  this.setState({ "flash":  res.message }))
+    .catch(err  =>  this.setState({ "flash":  err.message }))
+    console.log(this.state)
   }
 
 updatePasswordField= (event) => {
@@ -37,7 +43,15 @@ updateEmailField = (event) => {
   updateNameField = (event) => {
     this.setState({name: event.target.value})
   } 
- 
+//   this.props.dispatch(
+//     {
+//         type : "CREATE_SESSION",
+//         user: res.user,
+//         token : res.token,
+//         message : res.message
+//     }
+// )
+
 
     render() {
         return (
@@ -61,6 +75,6 @@ updateEmailField = (event) => {
   }
 }       
 
-    export default SignIn;
+export  default  connect(mapStateToProps)(SignIn)
 
  
