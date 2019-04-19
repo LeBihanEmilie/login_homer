@@ -5,7 +5,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import SignUp from './Components/SignUp';
 import SignIn from './Components/SignIn';
-import Profile from './Components/Profile'
+import Profile from './Components/Profile';
 
 
 class App extends Component {

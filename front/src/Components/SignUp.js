@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+
 import './SignUp.css';
 
 class SignUp extends Component {
@@ -18,7 +19,7 @@ class SignUp extends Component {
     fetch("http://localhost:5000/signup",
     {
         method:  'POST',
-        headers:  new  Headers({
+        headers:  new Headers({
             'Content-Type':  'application/json'
         }),
         body:  JSON.stringify(this.state),
@@ -50,6 +51,7 @@ class SignUp extends Component {
         return (
           <div className="signup">
           <Link to="/signin">Sign In</Link>
+          <Link to="/profile">Profile</Link>
             <div className="center">
                 <div className="card">
                   <h1>Sign Up</h1>

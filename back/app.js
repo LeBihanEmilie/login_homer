@@ -4,8 +4,15 @@ const morgan = require("morgan");
 const app = express();
 const router = express.Router();
 const connection = require('./helpers/db.js');
-var passport = require('passport')
+const passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
+const bcrypt  = require ('bcryptjs') ; 
+const jwt = require('jsonwebtoken');
+const JwtStrategy = require('passport-jwt').Strategy,
+    ExtractJWT = require('passport-jwt').ExtractJwt;
+
+
+const SECRET = 'emilie';
  
 //LOCAL DEV
 app.all('/*', (req, res, next) => {
@@ -25,6 +32,11 @@ router.use(bodyParser.urlencoded({
 }));
 
 passport.use(new LocalStrategy(
+  {  
+    usernameField: 'email', 
+    passwordField: 'password',
+    session: false
+  },
   (email, password, done) => {
     const userQuery = `SELECT * FROM users WHERE email='${email}'`;
     connection.query(userQuery, (err, results) => {
@@ -32,21 +44,39 @@ passport.use(new LocalStrategy(
 
       const user = results[0];
 
+      // si y'a une erreur
       if (err) {
         console.log('err', err);
         return done(err);
       }
+
+      // si le mail n'est pas bon
       if (!user.email) {
         console.log('Incorrect username.', user.email);
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (user.password !== password) {
-        console.log('Incorrect password.', user.password);
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      console.log('Succesfuly logged in.', user);
-      return done(null, user, { message: 'Succesfuly logged in.' });
+
+      bcrypt.compare(password, user.password, (err, res) => {
+        if(res) {
+          // si le password est bon
+          console.log('Succesfuly logged in.', user);
+          return done(null, user, { message: 'Succesfuly logged in.' });
+        } else {
+          // si le password n'est bon
+          console.log('Incorrect password.', user.password);
+          return done(null, false, { message: 'Incorrect password.' });
+        } 
+      });
     });
+  }
+));
+
+passport.use(new JwtStrategy({  
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),  
+  secretOrKey   : SECRET  
+},
+  (jwtPayload, cb) => {  
+    return cb(null, jwtPayload);
   }
 ));
 
@@ -55,26 +85,38 @@ passport.serializeUser((user, done) => {
 });
 
 router.post('/signin', 
-  passport.authenticate('local', { failureRedirect: '/signup' }),
+  passport.authenticate('local', { session: false }),
   (req, res) => {
-    res.redirect('/signup');
+    const token = jwt.sign(req.body.email, SECRET);  
+    return res.json({
+      user: req.body.email,
+      token
+    });  
   }
 );
 
+
 router.post('/signup', (req, res, next) => {
   try {
-    const insert = `INSERT INTO users ( email, password, name, lastname) values ('${req.body.email}', '${req.body.password}','${req.body.name}', '${req.body.lastname}' )`;
-    connection.query(insert, function (err, response) {
-      if(err)  {
-        console.log(err);
+    bcrypt.hash(req.body.password, 10, function(hashErr, hash) {
+      if (hashErr) {
+        console.log(hashErr);
         res.status(500).end();
-      } 
-      res.end('hey ok');
+      }
+
+      const insert = `INSERT INTO users ( email, password, name, lastname) values ('${req.body.email}', '${hash}','${req.body.name}', '${req.body.lastname}' )`;
+      connection.query(insert, function (sqlErr, response) {
+        if(sqlErr)  {
+          console.log(sqlErr);
+          res.status(500).end();
+        }
+        res.end('hey ok');
+      });
     });
   } catch(err) {
     console.log(err);
-  }
-});
+  }}
+)
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -83,6 +125,11 @@ app.use(express.static(__dirname + "/public"));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', router);
+
+router.get("/profile", passport.authenticate('jwt', { session:  false }), (req, res) => {
+  res.send('hallo, ich bin Emilie');
+});
+ 
 
 app.use((req, res, next) => {
   let err = new Error("Not Found, l'app n'est pas trouvée");
